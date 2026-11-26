@@ -58,6 +58,9 @@ describe("Stage 3.1 Real-Time 3D VRM Pipeline & Quality Presets", () => {
   });
 
   it("configures candidate VRoid paths and disables unverified procedural mask overlay by default", () => {
+    expect(BYTEPROWLER_3D_MODEL_CONFIG.candidateUrls[0]).toBe(
+      "/character/ByteProwler%20-%20Midnight.vrm",
+    );
     expect(BYTEPROWLER_3D_MODEL_CONFIG.candidateUrls).toContain(
       "/character/ByteProwler%20-%20Midnight.glb",
     );

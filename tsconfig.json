@@ -32,6 +32,8 @@
   ],
   "exclude": [
     "node_modules",
+    ".open-next",
+    ".wrangler",
     "src/main.tsx",
     "src/App.tsx"
   ]

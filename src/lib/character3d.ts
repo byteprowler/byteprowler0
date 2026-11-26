@@ -10,6 +10,7 @@ export interface CharacterModelConfig {
 
 export const BYTEPROWLER_3D_MODEL_CONFIG: CharacterModelConfig = {
   candidateUrls: [
+    "/character/ByteProwler%20-%20Midnight.vrm",
     "/character/models/byteprowler%20-%20midnight.vrm",
     "/character/models/byteprowler%20-%20midnight.glb",
     "/character/ByteProwler%20-%20Midnight.glb",
@@ -139,6 +140,7 @@ export function inspectGlbBinary(buffer: ArrayBuffer): GlbBinaryValidation {
 export const CHARACTER_MODEL_SPEC = {
   format: "VRM 1.0 or VRM 0.x (VRoid Studio .vrm / .glb export)",
   expectedPaths: [
+    "/character/ByteProwler - Midnight.vrm",
     "/character/models/byteprowler - midnight.vrm",
     "/character/models/byteprowler - midnight.glb",
     "/character/ByteProwler - Midnight.glb",
