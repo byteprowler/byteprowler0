@@ -16,7 +16,7 @@ vi.mock("next/router", () => ({
   }),
 }));
 
-describe("Stage 3 Reconstructed 3D Hero & Hybrid Navigation", () => {
+describe("Stage 3.1 3D Hero, Fallback & Hybrid Navigation", () => {
   afterEach(() => {
     cleanup();
     window.localStorage.clear();
@@ -40,17 +40,15 @@ describe("Stage 3 Reconstructed 3D Hero & Hybrid Navigation", () => {
     expect(screen.getByRole("button", { name: /Resume/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Contact/i })).toBeInTheDocument();
 
-    // Visible character mode/expression buttons should NOT clutter the hero canvas
     expect(screen.queryByRole("button", { name: "Unmasked" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Half-Body" })).not.toBeInTheDocument();
 
-    // Non-WebGL jsdom environment should fall back cleanly to the static Midnight portrait
     expect(
       await screen.findByAltText(/ByteProwler V3 — The Midnight Developer half-body anime character/i),
     ).toBeInTheDocument();
   });
 
-  it("renders Navbar with preserved logo, 7 section links, and controls character & motion states via Ctrl+K", async () => {
+  it("renders Navbar with preserved logo, 7 section links, and controls character, quality preset & motion via Ctrl+K", async () => {
     window.localStorage.setItem("byteprowler_v3_motion_pref", "reduced");
 
     render(
@@ -72,22 +70,19 @@ describe("Stage 3 Reconstructed 3D Hero & Hybrid Navigation", () => {
 
     const input = screen.getByLabelText("Filter commands");
 
-    // Verify Contact jump entry exists
     fireEvent.change(input, { target: { value: "Contact" } });
     expect(screen.getByRole("option", { name: /Jump to Contact/i })).toBeInTheDocument();
 
-    // Verify character mask & expression states are controllable from Command Interface
-    fireEvent.change(input, { target: { value: "Mask State: Unmasked" } });
-    fireEvent.click(screen.getByRole("option", { name: /Mask State: Unmasked/i }));
+    fireEvent.change(input, { target: { value: "3D Graphics Quality: Medium" } });
+    fireEvent.click(screen.getByRole("option", { name: /3D Graphics Quality: Medium/i }));
     await waitFor(() => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
-    // Re-open to verify active indicator updated and toggle motion preference
     fireEvent.keyDown(window, { key: "k", ctrlKey: true });
     const reopenedInput = screen.getByLabelText("Filter commands");
-    fireEvent.change(reopenedInput, { target: { value: "Mask State: Unmasked" } });
-    expect(screen.getByRole("option", { name: /Mask State: Unmasked.*Active/i })).toBeInTheDocument();
+    fireEvent.change(reopenedInput, { target: { value: "3D Graphics Quality: Medium" } });
+    expect(screen.getByRole("option", { name: /3D Graphics Quality: Medium.*Active/i })).toBeInTheDocument();
 
     fireEvent.change(reopenedInput, { target: { value: "Restore Full Animations" } });
     fireEvent.click(screen.getByRole("option", { name: /Restore Full Animations/i }));

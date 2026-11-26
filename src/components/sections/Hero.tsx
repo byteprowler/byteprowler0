@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import dynamic from "next/dynamic";
 import { ChevronDown } from "lucide-react";
 import HeroTypography from "../ui/HeroTypography";
-import HeroStaticBackdrop from "../three/HeroStaticBackdrop";
+import CharacterFallback from "../three/CharacterFallback";
 import { useReducedMotionSafe } from "../../hooks/useReducedMotionSafe";
 
-const MidnightHeroCanvas = dynamic(() => import("../three/MidnightHeroCanvas"), {
+const CharacterCanvas = dynamic(() => import("../three/CharacterCanvas"), {
   ssr: false,
-  loading: () => <HeroStaticBackdrop reason="loading" />,
+  loading: () => <CharacterFallback mode="loading" progressPercent={0} />,
 });
 
 export default function Hero() {
@@ -28,9 +28,9 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-[100svh] w-full flex-col justify-end overflow-hidden bg-[#08090D]"
     >
-      {/* Full-viewport Interactive 3D WebGL Scene (lazy-loaded client-side with static fallback) */}
+      {/* Full-viewport Interactive 3D Character Canvas (client-only dynamic import) */}
       <div className="absolute inset-0 z-0">
-        <MidnightHeroCanvas heroContainerRef={heroSectionRef} />
+        <CharacterCanvas heroContainerRef={heroSectionRef} />
       </div>
 
       {/* Editorial contrast scrims (no backdrop-blur over WebGL) */}

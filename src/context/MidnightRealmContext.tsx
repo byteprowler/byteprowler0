@@ -5,6 +5,7 @@ import {
   type CharacterExpressionId,
   type CharacterMaskMode,
 } from "../lib/character";
+import type { GraphicsQualityPreference } from "../lib/character3d";
 import { ReducedMotionOverrideContext } from "../hooks/useReducedMotionSafe";
 import type { ResumeProtocolSource } from "../components/ui/ResumeProtocol";
 
@@ -16,6 +17,7 @@ interface MidnightRealmContextValue {
   expression: CharacterExpressionId;
   maskMode: CharacterMaskMode;
   motionPreference: MotionPreference;
+  graphicsQuality: GraphicsQualityPreference;
   isCommandOpen: boolean;
   isResumeOpen: boolean;
   resumeSource: ResumeProtocolSource;
@@ -26,6 +28,7 @@ interface MidnightRealmContextValue {
   cycleExpression: () => void;
   setMotionPreference: (preference: MotionPreference) => void;
   toggleReducedMotion: () => void;
+  setGraphicsQuality: (quality: GraphicsQualityPreference) => void;
   openCommand: () => void;
   closeCommand: () => void;
   toggleCommand: () => void;
@@ -67,6 +70,7 @@ export function MidnightRealmProvider({ children }: { children: React.ReactNode 
   const [characterViewMode, setCharacterViewMode] = useState<CharacterViewMode>("halfbody");
   const [expression, setExpression] = useState<CharacterExpressionId>("idle");
   const [maskMode, setMaskMode] = useState<CharacterMaskMode>("masked");
+  const [graphicsQuality, setGraphicsQuality] = useState<GraphicsQualityPreference>("auto");
   const motionPreference = useSyncExternalStore(
     subscribeMotionPreference,
     getClientMotionPreference,
@@ -105,8 +109,7 @@ export function MidnightRealmProvider({ children }: { children: React.ReactNode 
     const order = CHARACTER_MASK_MODES.map((m) => m.id);
     setMaskMode((current) => {
       const idx = order.indexOf(current);
-      const next = order[(idx + 1) % order.length] ?? "masked";
-      return next;
+      return order[(idx + 1) % order.length] ?? "masked";
     });
     setCharacterViewMode("mask");
   }, []);
@@ -149,6 +152,7 @@ export function MidnightRealmProvider({ children }: { children: React.ReactNode 
       expression,
       maskMode,
       motionPreference,
+      graphicsQuality,
       isCommandOpen,
       isResumeOpen,
       resumeSource,
@@ -159,6 +163,7 @@ export function MidnightRealmProvider({ children }: { children: React.ReactNode 
       cycleExpression,
       setMotionPreference,
       toggleReducedMotion,
+      setGraphicsQuality,
       openCommand,
       closeCommand,
       toggleCommand,
@@ -170,6 +175,7 @@ export function MidnightRealmProvider({ children }: { children: React.ReactNode 
       expression,
       maskMode,
       motionPreference,
+      graphicsQuality,
       isCommandOpen,
       isResumeOpen,
       resumeSource,

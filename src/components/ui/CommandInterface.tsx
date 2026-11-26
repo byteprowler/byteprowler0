@@ -36,10 +36,12 @@ function CommandDialogContent() {
     expression,
     maskMode,
     motionPreference,
+    graphicsQuality,
     setCharacterViewMode,
     selectExpression,
     selectMaskMode,
     toggleReducedMotion,
+    setGraphicsQuality,
     openResume,
   } = useMidnightRealm();
 
@@ -151,6 +153,13 @@ function CommandDialogContent() {
       })),
     ];
 
+    const qualityOptions: Array<{ id: "auto" | "low" | "medium" | "high"; label: string }> = [
+      { id: "auto", label: "Auto (Device Adaptive)" },
+      { id: "low", label: "Low (Battery / Mobile)" },
+      { id: "medium", label: "Medium (Balanced)" },
+      { id: "high", label: "High (Full Shadows & DPR)" },
+    ];
+
     const preferenceItems: CommandItem[] = [
       {
         id: "pref-motion",
@@ -167,6 +176,18 @@ function CommandDialogContent() {
           closeCommand();
         },
       },
+      ...qualityOptions.map((option) => ({
+        id: `quality-${option.id}`,
+        group: "Preferences" as const,
+        label: `3D Graphics Quality: ${option.label}`,
+        hint: graphicsQuality === option.id ? "Active" : "Apply preset",
+        keywords: `graphics quality 3d webgl preset ${option.id} performance`,
+        icon: SlidersHorizontal,
+        onSelect: () => {
+          setGraphicsQuality(option.id);
+          closeCommand();
+        },
+      })),
     ];
 
     return [...sectionItems, ...pageItems, ...characterItems, ...preferenceItems];
@@ -174,6 +195,7 @@ function CommandDialogContent() {
     characterViewMode,
     closeCommand,
     expression,
+    graphicsQuality,
     maskMode,
     motionPreference,
     openResume,
@@ -181,6 +203,7 @@ function CommandDialogContent() {
     selectExpression,
     selectMaskMode,
     setCharacterViewMode,
+    setGraphicsQuality,
     shouldReduceMotion,
     toggleReducedMotion,
   ]);
